@@ -1,19 +1,47 @@
 import { ArrowRight } from 'lucide-react';
 import { colors, gradients, fonts } from '../theme';
-import ViaLogo from './ui/ViaLogo';
+import { WordmarkA, WordmarkB, WordmarkC, WordmarkD } from './ViaWordmark';
 
-const pills = ['Biomarkers', 'Your Score', 'Virtual Care', 'Treatment Paths'];
+// Wordmark showcase mode — four candidate treatments stacked so the user
+// can compare side-by-side on the real landing gradient. Each variant
+// has the same supporting copy so only the wordmark changes.
+//
+// When a direction is picked: replace this showcase with the chosen
+// variant and remove the other three from ViaWordmark.jsx.
+
+const variants = [
+  {
+    id: 'A',
+    label: 'A · "via." — minimalist with period',
+    Wordmark: WordmarkA,
+    note: 'Confident and brand-forward. Similar to Glossier, Carrot, Apple.',
+  },
+  {
+    id: 'B',
+    label: 'B · "via→" — arrow dot',
+    Wordmark: WordmarkB,
+    note: 'Forward motion baked into the letterform. Pathway as directional.',
+  },
+  {
+    id: 'C',
+    label: 'C · "via" with path underline',
+    Wordmark: WordmarkC,
+    note: 'Subtle curved route line below the wordmark — pathway as journey.',
+  },
+  {
+    id: 'D',
+    label: 'D · "v i a" — editorial tracking',
+    Wordmark: WordmarkD,
+    note: 'Generous letter-spacing. Premium, pairs well with italic tagline.',
+  },
+];
 
 export default function LandingPage({ onGetStarted }) {
   return (
     <div style={{
       minHeight: '100vh',
       background: gradients.dawn,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '40px 24px',
+      padding: '40px 24px 60px',
       fontFamily: fonts.family,
       position: 'relative',
       overflow: 'hidden',
@@ -29,127 +57,116 @@ export default function LandingPage({ onGetStarted }) {
         pointerEvents: 'none',
       }} />
 
-      {/* Brand mark — the visual anchor of the page */}
       <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 18,
-        marginBottom: 24,
+        maxWidth: 900,
+        margin: '0 auto',
         position: 'relative',
         zIndex: 1,
       }}>
-        <div className="via-hero-leaf" style={{ color: '#E8E4DD', opacity: 0.85, lineHeight: 0 }}>
-          <ViaLogo size={72} strokeWidth={1.25} animated />
-        </div>
-        <h1
-          className="via-hero-brand"
-          style={{
-            fontSize: 168,
-            fontFamily: fonts.family,
-            fontWeight: 500,
-            letterSpacing: -6,
-            color: '#FBF9F5',
-            margin: 0,
-            lineHeight: 1,
-          }}
-        >
-          via
-        </h1>
-      </div>
-
-      <p
-        className="via-hero-tagline"
-        style={{
-          fontSize: 28,
-          fontFamily: fonts.family,
-          fontStyle: 'italic',
-          fontWeight: 400,
-          color: 'rgba(251, 249, 245, 0.9)',
-          textAlign: 'center',
-          margin: '0 0 32px',
-          letterSpacing: -0.3,
-          lineHeight: 1.35,
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        The time is now.<br />
-        The plan is yours.
-      </p>
-
-      <p
-        className="via-hero-subhead"
-        style={{
-          fontSize: 16,
-          color: 'rgba(251, 249, 245, 0.65)',
-          textAlign: 'center',
-          maxWidth: 460,
-          margin: '0 0 40px',
-          lineHeight: 1.6,
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        Track your biomarkers, compare your options, and build a plan — with the clarity to choose what&apos;s right for you.
-      </p>
-
-      <button
-        onClick={onGetStarted}
-        style={{
-          background: colors.spice,
-          color: '#FBF9F5',
-          border: 'none',
-          padding: '16px 32px',
-          borderRadius: 999,
-          fontSize: 16,
+        <p style={{
+          fontSize: 12,
           fontWeight: 600,
-          fontFamily: fonts.family,
-          cursor: 'pointer',
-          marginBottom: 48,
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 10,
-          transition: 'transform 0.2s, box-shadow 0.2s',
-          boxShadow: '0 6px 24px rgba(122, 66, 50, 0.35)',
-          position: 'relative',
-          zIndex: 1,
-        }}
-        onMouseEnter={e => {
-          e.currentTarget.style.transform = 'translateY(-2px)';
-          e.currentTarget.style.boxShadow = '0 10px 32px rgba(122, 66, 50, 0.45)';
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 6px 24px rgba(122, 66, 50, 0.35)';
-        }}
-      >
-        Get started
-        <ArrowRight size={16} />
-      </button>
+          color: 'rgba(251, 249, 245, 0.65)',
+          textTransform: 'uppercase',
+          letterSpacing: 1.5,
+          textAlign: 'center',
+          margin: '0 0 36px',
+        }}>
+          Wordmark showcase · pick a direction
+        </p>
 
-      <div style={{
-        display: 'flex',
-        gap: 8,
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        maxWidth: 600,
-        position: 'relative',
-        zIndex: 1,
-      }}>
-        {pills.map(pill => (
-          <span key={pill} style={{
-            background: 'rgba(251, 249, 245, 0.08)',
-            color: 'rgba(251, 249, 245, 0.85)',
-            padding: '7px 16px',
-            borderRadius: 999,
-            fontSize: 13,
-            fontWeight: 500,
-            border: '1px solid rgba(251, 249, 245, 0.15)',
-            backdropFilter: 'blur(8px)',
-          }}>
-            {pill}
-          </span>
+        {variants.map(({ id, label, Wordmark, note }) => (
+          <div
+            key={id}
+            style={{
+              padding: '48px 24px',
+              borderBottom: '1px solid rgba(251, 249, 245, 0.08)',
+              textAlign: 'center',
+            }}
+          >
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: 180,
+              marginBottom: 16,
+            }}>
+              <Wordmark size={140} />
+            </div>
+            <p style={{
+              fontSize: 13,
+              fontWeight: 600,
+              color: 'rgba(251, 249, 245, 0.9)',
+              margin: '0 0 4px',
+            }}>
+              {label}
+            </p>
+            <p style={{
+              fontSize: 13,
+              color: 'rgba(251, 249, 245, 0.55)',
+              margin: 0,
+              maxWidth: 440,
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              lineHeight: 1.5,
+            }}>
+              {note}
+            </p>
+          </div>
         ))}
+
+        <div style={{
+          textAlign: 'center',
+          padding: '40px 24px 20px',
+        }}>
+          <p style={{
+            fontSize: 16,
+            color: 'rgba(251, 249, 245, 0.75)',
+            fontStyle: 'italic',
+            fontFamily: fonts.family,
+            margin: '0 0 28px',
+            lineHeight: 1.5,
+          }}>
+            The time is now.<br />
+            The plan is yours.
+          </p>
+          <button
+            onClick={onGetStarted}
+            style={{
+              background: colors.spice,
+              color: '#FBF9F5',
+              border: 'none',
+              padding: '16px 32px',
+              borderRadius: 999,
+              fontSize: 16,
+              fontWeight: 600,
+              fontFamily: fonts.family,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 10,
+              boxShadow: '0 6px 24px rgba(122, 66, 50, 0.35)',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = '0 10px 32px rgba(122, 66, 50, 0.45)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 6px 24px rgba(122, 66, 50, 0.35)';
+            }}
+          >
+            Get started (enters the app)
+            <ArrowRight size={16} />
+          </button>
+          <p style={{
+            fontSize: 12,
+            color: 'rgba(251, 249, 245, 0.4)',
+            margin: '16px 0 0',
+          }}>
+            Pick the direction you like and I&apos;ll lock it in everywhere.
+          </p>
+        </div>
       </div>
     </div>
   );
