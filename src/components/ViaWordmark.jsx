@@ -7,50 +7,84 @@
 // Once a direction is picked, the winning variant becomes the default
 // export and the other gets removed.
 
+import { useEffect, useRef, useState } from 'react';
 import { fonts, colors } from '../theme';
 
 /**
- * Variant 1 — 'via' with a forward arrow below the wordmark, centered.
- * The arrow sits under the type like a destination marker on a map,
- * reinforcing the "pathway / through to" meaning of the brand name.
+ * Variant 1 — 'via' with a forward arrow directly below the wordmark,
+ * spanning the full width of the word. We measure the rendered wordmark
+ * with a ref (re-measuring after Bricolage Grotesque finishes loading)
+ * so the arrow's width matches the word exactly at any size.
  */
 export function WordmarkArrowUnder({ size = 168, color = '#FBF9F5' }) {
-  const arrowWidth = size * 0.42;
-  const arrowHeight = size * 0.14;
+  const wordRef = useRef(null);
+  const [wordWidth, setWordWidth] = useState(0);
+
+  useEffect(() => {
+    const measure = () => {
+      if (wordRef.current) setWordWidth(wordRef.current.offsetWidth);
+    };
+    measure();
+    // Remeasure once the webfont is actually ready — first paint uses
+    // the fallback, which has slightly different metrics.
+    if (typeof document !== 'undefined' && document.fonts) {
+      document.fonts.ready.then(measure);
+    }
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [size]);
+
+  const arrowHeight = Math.max(size * 0.06, 10);
+  const strokeWidth = Math.max(size * 0.013, 1.5);
+  const tipSize = arrowHeight * 0.85;
+
   return (
     <span style={{
       display: 'inline-flex',
       flexDirection: 'column',
       alignItems: 'center',
-      gap: size * 0.06,
       lineHeight: 1,
     }}>
-      <span style={{
-        fontSize: size,
-        fontFamily: fonts.family,
-        fontWeight: 500,
-        letterSpacing: -size * 0.04,
-        color,
-        lineHeight: 1,
-      }}>
+      <span
+        ref={wordRef}
+        style={{
+          fontSize: size,
+          fontFamily: fonts.family,
+          fontWeight: 500,
+          letterSpacing: -size * 0.04,
+          color,
+          lineHeight: 1,
+        }}
+      >
         via
       </span>
-      <svg
-        width={arrowWidth}
-        height={arrowHeight}
-        viewBox="0 0 42 14"
-        fill="none"
-        aria-hidden="true"
-        style={{ display: 'block', opacity: 0.9 }}
-      >
-        <path
-          d="M2 7 L36 7 M29 2 L36 7 L29 12"
-          stroke={color}
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      {wordWidth > 0 && (
+        <svg
+          width={wordWidth}
+          height={arrowHeight}
+          viewBox={`0 0 ${wordWidth} ${arrowHeight}`}
+          aria-hidden="true"
+          style={{
+            display: 'block',
+            marginTop: size * 0.03,
+          }}
+        >
+          <path
+            d={`
+              M0 ${arrowHeight / 2}
+              L${wordWidth - tipSize * 0.3} ${arrowHeight / 2}
+              M${wordWidth - tipSize} ${arrowHeight / 2 - tipSize * 0.55}
+              L${wordWidth} ${arrowHeight / 2}
+              L${wordWidth - tipSize} ${arrowHeight / 2 + tipSize * 0.55}
+            `}
+            stroke={color}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="none"
+          />
+        </svg>
+      )}
     </span>
   );
 }
