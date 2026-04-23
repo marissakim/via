@@ -1,39 +1,68 @@
-// Four candidate wordmark treatments for the via brand. Each renders
-// at the scale requested via the `size` prop and in a single color
-// inherited from parent (via `color` prop defaulting to currentColor).
+// Candidate wordmark treatments for the via brand. Each renders at the
+// scale requested via the `size` prop and inherits color from parent.
 //
-// A — minimalist 'via.' with period
-// B — 'via' with the dot of the 'i' replaced by a small forward arrow
-// C — 'via' with a subtle curved path line underneath
-// D — 'v i a' with wide editorial letter-spacing
+// WordmarkArrowUnder — 'via' with a small forward arrow below the wordmark
+// WordmarkSageDot    — 'via' where the dot on the 'i' is a sage-colored pop
 //
-// Passed through from LandingPage for the showcase — once a direction
-// is picked, the winning variant becomes the default export and the
-// others are removed.
+// Once a direction is picked, the winning variant becomes the default
+// export and the other gets removed.
 
-import { fonts } from '../theme';
+import { fonts, colors } from '../theme';
 
-export function WordmarkA({ size = 168, color = '#FBF9F5' }) {
+/**
+ * Variant 1 — 'via' with a forward arrow below the wordmark, centered.
+ * The arrow sits under the type like a destination marker on a map,
+ * reinforcing the "pathway / through to" meaning of the brand name.
+ */
+export function WordmarkArrowUnder({ size = 168, color = '#FBF9F5' }) {
+  const arrowWidth = size * 0.42;
+  const arrowHeight = size * 0.14;
   return (
     <span style={{
-      fontSize: size,
-      fontFamily: fonts.family,
-      fontWeight: 500,
-      letterSpacing: -size * 0.04,
-      color,
+      display: 'inline-flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: size * 0.06,
       lineHeight: 1,
-      display: 'inline-block',
     }}>
-      via.
+      <span style={{
+        fontSize: size,
+        fontFamily: fonts.family,
+        fontWeight: 500,
+        letterSpacing: -size * 0.04,
+        color,
+        lineHeight: 1,
+      }}>
+        via
+      </span>
+      <svg
+        width={arrowWidth}
+        height={arrowHeight}
+        viewBox="0 0 42 14"
+        fill="none"
+        aria-hidden="true"
+        style={{ display: 'block', opacity: 0.9 }}
+      >
+        <path
+          d="M2 7 L36 7 M29 2 L36 7 L29 12"
+          stroke={color}
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
     </span>
   );
 }
 
-export function WordmarkB({ size = 168, color = '#FBF9F5' }) {
-  // Render 'v', then a dotless 'ı' (U+0131) with a custom arrow positioned
-  // above it, then 'a'. The arrow SVG replaces what would normally be the
-  // dot over the 'i'.
-  const arrowSize = size * 0.11;
+/**
+ * Variant 2 — 'via' rendered with a dotless 'ı' and a sage-colored
+ * round dot hovering above it in place of the standard dot. Adds a
+ * single moment of color to an otherwise monochrome mark — subtle
+ * brand accent that also reads as a "waypoint" above the letterform.
+ */
+export function WordmarkSageDot({ size = 168, color = '#FBF9F5', dotColor = colors.sage }) {
+  const dotSize = size * 0.085;
   return (
     <span style={{
       position: 'relative',
@@ -46,92 +75,20 @@ export function WordmarkB({ size = 168, color = '#FBF9F5' }) {
       display: 'inline-block',
     }}>
       v{'\u0131'}a
-      <span style={{
-        position: 'absolute',
-        // Approximate: arrow sits above the dotless-i, which is ~38% across
-        // the wordmark (after 'v'). Adjustable via eye rather than math.
-        left: '37%',
-        top: `${size * 0.04}px`,
-        lineHeight: 0,
-      }}>
-        <svg
-          width={arrowSize * 2.6}
-          height={arrowSize}
-          viewBox="0 0 26 10"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path
-            d="M1 5 L22 5 M17 1 L22 5 L17 9"
-            stroke={color}
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </span>
-    </span>
-  );
-}
-
-export function WordmarkC({ size = 168, color = '#FBF9F5' }) {
-  return (
-    <span style={{
-      position: 'relative',
-      display: 'inline-block',
-      paddingBottom: size * 0.12,
-    }}>
-      <span style={{
-        fontSize: size,
-        fontFamily: fonts.family,
-        fontWeight: 500,
-        letterSpacing: -size * 0.04,
-        color,
-        lineHeight: 1,
-        display: 'inline-block',
-      }}>
-        via
-      </span>
-      <svg
-        width="100%"
-        height={size * 0.12}
-        viewBox="0 0 100 12"
-        preserveAspectRatio="none"
-        fill="none"
+      <span
         aria-hidden="true"
         style={{
           position: 'absolute',
-          left: 0,
-          bottom: 0,
+          // Roughly over where the 'i' lives inside 'via'
+          left: '41%',
+          top: `${size * 0.06}px`,
+          width: dotSize,
+          height: dotSize,
+          borderRadius: '50%',
+          background: dotColor,
           display: 'block',
         }}
-      >
-        <path
-          d="M2 8 Q30 2 50 6 T98 8"
-          stroke={color}
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.75"
-        />
-      </svg>
-    </span>
-  );
-}
-
-export function WordmarkD({ size = 168, color = '#FBF9F5' }) {
-  return (
-    <span style={{
-      fontSize: size * 0.85, // slightly smaller since the spacing eats width
-      fontFamily: fonts.family,
-      fontWeight: 400,
-      letterSpacing: size * 0.12,
-      color,
-      lineHeight: 1,
-      display: 'inline-block',
-      paddingLeft: size * 0.12, // compensate for trailing letter-spacing
-    }}>
-      v i a
+      />
     </span>
   );
 }

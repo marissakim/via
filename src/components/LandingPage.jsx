@@ -1,38 +1,23 @@
 import { ArrowRight } from 'lucide-react';
 import { colors, gradients, fonts } from '../theme';
-import { WordmarkA, WordmarkB, WordmarkC, WordmarkD } from './ViaWordmark';
+import { WordmarkArrowUnder, WordmarkSageDot } from './ViaWordmark';
 
-// Wordmark showcase mode — four candidate treatments stacked so the user
-// can compare side-by-side on the real landing gradient. Each variant
-// has the same supporting copy so only the wordmark changes.
-//
-// When a direction is picked: replace this showcase with the chosen
-// variant and remove the other three from ViaWordmark.jsx.
+// Two-variant wordmark showcase — user picks a direction for the via
+// brand identity. Once chosen, the winning variant becomes the landing
+// page's default hero and the other is removed.
 
 const variants = [
   {
-    id: 'A',
-    label: 'A · "via." — minimalist with period',
-    Wordmark: WordmarkA,
-    note: 'Confident and brand-forward. Similar to Glossier, Carrot, Apple.',
+    id: 1,
+    label: '1 · "via" with forward arrow underneath',
+    Wordmark: WordmarkArrowUnder,
+    note: 'Arrow sits below the wordmark like a destination marker — pathway meaning as a quiet second layer.',
   },
   {
-    id: 'B',
-    label: 'B · "via→" — arrow dot',
-    Wordmark: WordmarkB,
-    note: 'Forward motion baked into the letterform. Pathway as directional.',
-  },
-  {
-    id: 'C',
-    label: 'C · "via" with path underline',
-    Wordmark: WordmarkC,
-    note: 'Subtle curved route line below the wordmark — pathway as journey.',
-  },
-  {
-    id: 'D',
-    label: 'D · "v i a" — editorial tracking',
-    Wordmark: WordmarkD,
-    note: 'Generous letter-spacing. Premium, pairs well with italic tagline.',
+    id: 2,
+    label: '2 · "via" with sage dot on the "i"',
+    Wordmark: WordmarkSageDot,
+    note: 'One point of brand color in a monochrome mark. The sage dot reads as a waypoint floating above the letterform.',
   },
 ];
 
@@ -79,7 +64,7 @@ export default function LandingPage({ onGetStarted }) {
           <div
             key={id}
             style={{
-              padding: '48px 24px',
+              padding: '56px 24px',
               borderBottom: '1px solid rgba(251, 249, 245, 0.08)',
               textAlign: 'center',
             }}
@@ -88,10 +73,10 @@ export default function LandingPage({ onGetStarted }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              minHeight: 180,
-              marginBottom: 16,
+              minHeight: 200,
+              marginBottom: 20,
             }}>
-              <Wordmark size={140} />
+              <Wordmark size={150} />
             </div>
             <p style={{
               fontSize: 13,
