@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { X, ArrowRight, Check, Truck, Sparkles } from 'lucide-react';
 import { colors, fonts, gradients } from '../theme';
 import { viaKits, recommendKit } from '../data/kits';
-import ViaLogo from './ui/ViaLogo';
 
 // Three-kit chooser modal. Recommends the kit best matched to the user's
 // profile, but all three are orderable. Mock order flow shows a
@@ -66,10 +65,7 @@ function ChooserView({ profile, recommended, onOrder }) {
   return (
     <div style={{ padding: '32px 28px' }}>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-        <div style={{ color: colors.spice, lineHeight: 0 }}>
-          <ViaLogo size={24} strokeWidth={1.75} />
-        </div>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
         <span style={{
           fontSize: 11, fontWeight: 700, color: colors.spice,
           textTransform: 'uppercase', letterSpacing: 0.8,

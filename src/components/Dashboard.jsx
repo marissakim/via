@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Activity, Target, MapPin, DollarSign, ClipboardList, LogOut } from 'lucide-react';
 import { colors, gradients, fonts } from '../theme';
-import ViaLogo from './ui/ViaLogo';
+import ViaWordmark from './ViaWordmark';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import MyIndex from './tabs/MyIndex';
 import Biomarkers from './tabs/Biomarkers';
@@ -89,19 +89,8 @@ export default function Dashboard({ profile, biomarkers = [], onUpdateBiomarkers
         top: 0,
         zIndex: 100,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ color: colors.sage, lineHeight: 0 }}>
-            <ViaLogo size={22} strokeWidth={1.75} />
-          </div>
-          <span style={{
-            fontSize: 24,
-            fontFamily: fonts.family,
-            fontWeight: 600,
-            letterSpacing: -0.8,
-            color: colors.plum,
-          }}>
-            via
-          </span>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <ViaWordmark size={26} color={colors.plum} />
         </div>
         <div ref={menuRef} style={{ position: 'relative' }}>
           <button
